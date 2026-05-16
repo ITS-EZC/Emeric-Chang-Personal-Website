@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Emeric Z. Chang</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Share+Tech+Mono&family=Cinzel:wght@700;900&display=swap');
+
+  :root {
+    --gold: #c9a84c;
+    --gold-dim: #7a6228;
+    --gold-glow: rgba(201,168,76,0.35);
+    --neon: #00c8ff;
+    --neon-dim: #005f7a;
+    --bg: #080b10;
+    --bg2: #0d1117;
+    --text: #d0d8e8;
+    --text-dim: #6a7a90;
+    --red: #ff3c5a;
+    --mono: 'Share Tech Mono', monospace;
+    --serif: 'EB Garamond', serif;
+    --title: 'Cinzel', serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--serif); font-size: 17px; line-height: 1.75; overflow-x: hidden; }
+
+  /* SCANLINES */
+  body::before { content: ''; position: fixed; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px); pointer-events: none; z-index: 9999; }
+  body::after { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(0,200,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(0,200,255,0.025) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; z-index: 0; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 0 3rem; height: 52px; background: rgba(8,11,16,0.92); border-bottom: 1px solid rgba(201,168,76,0.15); backdrop-filter: blur(10px); }
+  nav .logo { font-family: var(--title); font-size: 0.85rem; color: var(--gold); letter-spacing: 0.18em; }
+  nav .nav-center { display: flex; gap: 2.2rem; }
+  nav .nav-center a { font-family: var(--mono); font-size: 0.68rem; color: var(--text-dim); text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.25s; }
+  nav .nav-center a:hover { color: var(--neon); }
+  .nav-status { font-family: var(--mono); font-size: 0.6rem; color: var(--text-dim); letter-spacing: 0.1em; display: flex; align-items: center; gap: 0.5rem; }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,0.6); animation: pulse-dot 2s ease-in-out infinite; }
+  @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+  /* SIDE NAV */
+  .side-nav { position: fixed; right: 2rem; top: 50%; transform: translateY(-50%); z-index: 999; display: flex; flex-direction: column; align-items: flex-end; gap: 1.2rem; }
+  .side-nav a { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+  .side-nav .dot { width: 6px; height: 6px; border-radius: 50%; border: 1px solid var(--gold-dim); background: transparent; transition: all 0.3s; }
+  .side-nav a:hover .dot, .side-nav a.active .dot { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 8px var(--gold-glow); }
+  .side-nav .side-label { font-family: var(--mono); font-size: 0.55rem; color: var(--text-dim); letter-spacing: 0.15em; text-transform: uppercase; opacity: 0; transition: opacity 0.25s; }
+  .side-nav a:hover .side-label { opacity: 1; }
+
+  section { position: relative; z-index: 1; }
+  .section-inner { max-width: 880px; margin: 0 auto; padding: 7rem 2rem; }
+  .section-label { font-family: var(--mono); font-size: 0.68rem; color: var(--neon); letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .section-title { font-family: var(--title); font-size: 1.9rem; color: var(--gold); letter-spacing: 0.05em; margin-bottom: 2.5rem; position: relative; display: inline-block; }
+  .section-title::after { content: ''; position: absolute; left: 0; bottom: -8px; width: 100%; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); }
+
+  /* ============ HERO ============ */
+  #hero { min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; }
+  .hero-bg-skyline { position: absolute; bottom: 0; left: 0; right: 0; height: 320px; z-index: 0; opacity: 0.12; }
+  .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; align-items: center; max-width: 1100px; margin: 0 auto; padding: 0 3rem; gap: 4rem; width: 100%; }
+  .hero-left {}
+  .hero-location { font-family: var(--mono); font-size: 0.68rem; color: var(--text-dim); letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
+  .hero-location::before { content: ''; width: 32px; height: 1px; background: var(--text-dim); }
+  .hero-name { font-family: var(--title); font-size: clamp(2.6rem, 5.5vw, 4rem); color: var(--gold); letter-spacing: 0.04em; line-height: 1.1; text-shadow: 0 0 60px rgba(201,168,76,0.25); margin-bottom: 1rem; }
+  .hero-sub { font-family: var(--serif); font-size: 1.1rem; color: var(--text-dim); margin-bottom: 0.3rem; }
+  .hero-sub a { color: var(--neon); text-decoration: none; }
+  .hero-sub-2 { font-family: var(--mono); font-size: 0.78rem; color: var(--text-dim); margin-bottom: 1.5rem; letter-spacing: 0.03em; }
+
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 2rem; }
+  .hero-pill { font-family: var(--mono); font-size: 0.6rem; color: var(--text-dim); border: 1px solid rgba(201,168,76,0.2); background: rgba(201,168,76,0.04); padding: 0.25rem 0.7rem; border-radius: 2px; letter-spacing: 0.06em; transition: all 0.25s; }
+  .hero-pill:hover { border-color: var(--neon); color: var(--neon); background: rgba(0,200,255,0.06); }
+
+  .hero-links { display: flex; gap: 1.2rem; align-items: center; }
+  .hero-link { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; transition: all 0.2s; }
+  .hero-link-primary { color: var(--neon); }
+  .hero-link-primary:hover { text-shadow: 0 0 12px rgba(0,200,255,0.5); }
+  .hero-link-secondary { color: var(--text-dim); }
+  .hero-link-secondary:hover { color: var(--gold); }
+  .hero-link-sep { color: var(--gold-dim); font-size: 0.7rem; }
+
+  /* HERO PORTRAIT */
+  .hero-right { display: flex; align-items: center; justify-content: center; }
+  .portrait-frame {
+    width: 360px; height: 420px; position: relative; cursor: pointer;
+    border: 1px solid rgba(201,168,76,0.2);
+    overflow: hidden;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .portrait-frame:hover {
+    border-color: rgba(0,200,255,0.35);
+    box-shadow: 0 0 35px rgba(0,200,255,0.1);
+  }
+  .portrait-frame img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center top;
+    filter: grayscale(0.6) contrast(1.3) brightness(0.85);
+    transition: filter 0.4s;
+  }
+  .portrait-frame:hover img { filter: grayscale(0.4) contrast(1.2) brightness(0.9); }
+  /* Gold/neon duotone overlay */
+  .portrait-frame::before {
+    content: ''; position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(160deg, rgba(201,168,76,0.2) 0%, rgba(0,200,255,0.12) 100%);
+    mix-blend-mode: color;
+    pointer-events: none;
+  }
+  /* Scanline overlay */
+  .portrait-frame::after {
+    content: ''; position: absolute; inset: 0; z-index: 2;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.12) 2px, rgba(0,0,0,0.12) 4px);
+    pointer-events: none;
+  }
+  /* Bottom info bar */
+  .portrait-bar {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 3;
+    font-family: var(--mono); font-size: 0.52rem; letter-spacing: 0.2em; text-align: center;
+    color: var(--neon-dim); padding: 7px; background: rgba(8,11,16,0.88);
+    border-top: 1px solid rgba(0,200,255,0.15); text-transform: uppercase;
+  }
+  /* Corner decorations */
+  .portrait-corner {
+    position: absolute; z-index: 3; width: 14px; height: 14px;
+    border-color: var(--gold-dim); border-style: solid; border-width: 0;
+  }
+  .portrait-corner.tl { top: 6px; left: 6px; border-top-width: 1px; border-left-width: 1px; }
+  .portrait-corner.tr { top: 6px; right: 6px; border-top-width: 1px; border-right-width: 1px; }
+  .portrait-corner.bl { bottom: 28px; left: 6px; border-bottom-width: 1px; border-left-width: 1px; }
+  .portrait-corner.br { bottom: 28px; right: 6px; border-bottom-width: 1px; border-right-width: 1px; }
+
+  /* HIDDEN FAVORITES */
+  .favorites-overlay {
+    position: fixed; inset: 0; z-index: 10000;
+    background: rgba(8,11,16,0.96);
+    backdrop-filter: blur(12px);
+    display: none; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .favorites-overlay.open { display: flex; opacity: 1; }
+  .favorites-panel {
+    max-width: 720px; width: 90%; max-height: 85vh; overflow-y: auto;
+    padding: 3rem; position: relative;
+  }
+  .favorites-close {
+    position: absolute; top: 1rem; right: 1rem;
+    font-family: var(--mono); font-size: 0.75rem; color: var(--text-dim);
+    background: none; border: 1px solid rgba(201,168,76,0.2); border-radius: 2px;
+    padding: 0.3rem 0.7rem; cursor: pointer; transition: all 0.2s; letter-spacing: 0.1em;
+  }
+  .favorites-close:hover { color: var(--neon); border-color: var(--neon); }
+  .favorites-header-label {
+    font-family: var(--mono); font-size: 0.62rem; color: var(--neon);
+    letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 0.4rem;
+  }
+  .favorites-header {
+    font-family: var(--title); font-size: 1.8rem; color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+  .favorites-subtext {
+    font-family: var(--serif); font-size: 0.95rem; font-style: italic;
+    color: var(--text-dim); margin-bottom: 2.5rem;
+  }
+  .fav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.8rem; }
+  .fav-category {}
+  .fav-cat-label {
+    font-family: var(--mono); font-size: 0.6rem; color: var(--neon-dim);
+    letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.6rem;
+    padding-bottom: 0.3rem; border-bottom: 1px solid rgba(0,200,255,0.12);
+  }
+  .fav-item {
+    font-family: var(--serif); font-size: 0.95rem; color: var(--text);
+    padding: 0.3rem 0; border-bottom: 1px solid rgba(255,255,255,0.03);
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .fav-item .fav-note {
+    font-family: var(--mono); font-size: 0.58rem; color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+  @media (max-width: 640px) {
+    .fav-grid { grid-template-columns: 1fr; }
+    .favorites-panel { padding: 2rem 1.5rem; }
+  }
+
+  /* ============ ABOUT ============ */
+  #about { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.1); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+  .about-bio p { color: var(--text); margin-bottom: 1rem; }
+  .about-bio p:first-child::first-letter { font-size: 3.2rem; font-family: var(--title); color: var(--gold); float: left; line-height: 0.75; margin-right: 0.1em; margin-top: 0.1em; }
+  .stat-block { border: 1px solid rgba(0,200,255,0.12); background: rgba(0,200,255,0.02); border-radius: 3px; padding: 1.3rem; margin-bottom: 0.8rem; }
+  .stat-block .label { font-family: var(--mono); font-size: 0.6rem; color: var(--neon); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.25rem; }
+  .stat-block .value { font-family: var(--title); font-size: 1rem; color: var(--gold); }
+  .stat-block .sub { font-size: 0.85rem; color: var(--text-dim); margin-top: 0.15rem; }
+
+  /* ============ EXPERIENCE ============ */
+  #experience { background: var(--bg); }
+
+  .exhibit { display: grid; grid-template-columns: 100px 1fr; gap: 0 2rem; margin-bottom: 2.8rem; position: relative; }
+  .exhibit::before { content: ''; position: absolute; left: 100px; top: 0; bottom: -2.8rem; width: 1px; background: linear-gradient(to bottom, var(--gold-dim), transparent); transform: translateX(-1rem); }
+  .exhibit:last-child::before { display: none; }
+  .exhibit-date { font-family: var(--mono); font-size: 0.63rem; color: var(--text-dim); padding-top: 0.2rem; text-align: right; line-height: 1.4; }
+  .exhibit-label { font-family: var(--mono); font-size: 0.6rem; color: var(--neon); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.2rem; }
+  .exhibit-title { font-family: var(--title); font-size: 1rem; color: var(--gold); margin-bottom: 0.12rem; }
+  .exhibit-org { font-family: var(--mono); font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.45rem; }
+  .exhibit-desc { font-size: 0.88rem; color: var(--text-dim); }
+  .exhibit-desc li { margin-bottom: 0.25rem; margin-left: 1.1rem; }
+
+  .award { display: inline-block; font-family: var(--mono); font-size: 0.58rem; color: var(--gold); background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.2); border-radius: 2px; padding: 0.12rem 0.5rem; margin-top: 0.4rem; margin-right: 0.3rem; letter-spacing: 0.06em; }
+
+  /* HONORS SUBSECTION */
+  .honors-block { border: 1px solid rgba(201,168,76,0.15); border-radius: 3px; padding: 1.5rem; margin-top: 1rem; background: rgba(201,168,76,0.02); }
+  .honors-title { font-family: var(--title); font-size: 0.95rem; color: var(--gold); margin-bottom: 0.8rem; }
+
+  /* ============ INTERESTS ============ */
+  #interests { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.1); }
+  .interest-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1rem; }
+  .interest-card { border: 1px solid rgba(201,168,76,0.12); background: rgba(201,168,76,0.02); border-radius: 3px; padding: 1.3rem; transition: all 0.25s; cursor: default; }
+  .interest-card:hover { border-color: var(--neon); background: rgba(0,200,255,0.04); box-shadow: 0 0 20px rgba(0,200,255,0.06); transform: translateY(-2px); }
+  .interest-icon { font-size: 1.4rem; margin-bottom: 0.5rem; }
+  .interest-name { font-family: var(--title); font-size: 0.85rem; color: var(--gold); margin-bottom: 0.25rem; }
+  .interest-note { font-size: 0.83rem; color: var(--text-dim); }
+
+  /* ============ CONTACT ============ */
+  #contact { background: var(--bg); border-top: 1px solid rgba(201,168,76,0.1); text-align: center; }
+  .contact-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem; }
+  .contact-link { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; border-bottom: 1px solid var(--gold-dim); padding-bottom: 2px; transition: all 0.2s; }
+  .contact-link:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* ============ SCROLLING TICKER ============ */
+  .ticker-wrap { position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000; overflow: hidden; height: 32px; background: rgba(8,11,16,0.92); border-top: 1px solid rgba(0,200,255,0.15); backdrop-filter: blur(6px); display: flex; align-items: center; }
+  .ticker-track { display: flex; animation: ticker 30s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: var(--mono); font-size: 0.6rem; color: var(--text-dim); letter-spacing: 0.12em; text-transform: uppercase; padding: 0 2rem; flex-shrink: 0; }
+  .ticker-sep { color: var(--neon-dim); margin: 0 0.5rem; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* FOOTER */
+  footer { text-align: center; padding: 1.5rem 1.5rem 3rem; font-family: var(--mono); font-size: 0.6rem; color: var(--text-dim); letter-spacing: 0.1em; position: relative; z-index: 1; }
+
+  /* GLITCH */
+  .glitch { position: relative; display: inline-block; }
+  .glitch:hover::before, .glitch:hover::after { content: attr(data-text); position: absolute; top: 0; left: 0; font-family: inherit; font-size: inherit; font-weight: inherit; color: inherit; }
+  .glitch:hover::before { color: var(--neon); clip-path: polygon(0 30%,100% 30%,100% 50%,0 50%); transform: translateX(-2px); opacity: 0.6; animation: ga 0.3s steps(1) infinite; }
+  .glitch:hover::after { color: var(--red); clip-path: polygon(0 60%,100% 60%,100% 75%,0 75%); transform: translateX(2px); opacity: 0.6; animation: gb 0.25s steps(1) infinite; }
+  @keyframes ga { 0%,100% { transform: translateX(-2px); } 50% { transform: translateX(2px); } }
+  @keyframes gb { 0%,100% { transform: translateX(2px); } 50% { transform: translateX(-1px); } }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 1.2rem; }
+    nav .nav-center { gap: 1.2rem; }
+    .nav-status { display: none; }
+    .side-nav { display: none; }
+    .hero-grid { grid-template-columns: 1fr; padding: 0 1.5rem; gap: 2rem; }
+    .hero-right { display: none; }
+    .about-grid { grid-template-columns: 1fr; }
+    .section-inner { padding: 5rem 1.3rem; }
+    .exhibit { grid-template-columns: 1fr; }
+    .exhibit::before { display: none; }
+    .exhibit-date { text-align: left; margin-bottom: 0.3rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">E.Z.C.</div>
+  <div class="nav-center">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#interests">Interests</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="nav-status">Open to opportunities <span class="status-dot"></span></div>
+</nav>
+
+<!-- SIDE NAV -->
+<div class="side-nav">
+  <a href="#hero"><span class="side-label">Home</span><span class="dot" style="background:var(--gold);border-color:var(--gold);box-shadow:0 0 8px var(--gold-glow)"></span></a>
+  <a href="#about"><span class="side-label">About</span><span class="dot"></span></a>
+  <a href="#experience"><span class="side-label">Experience</span><span class="dot"></span></a>
+  <a href="#interests"><span class="side-label">Interests</span><span class="dot"></span></a>
+  <a href="#contact"><span class="side-label">Contact</span><span class="dot"></span></a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <!-- SKYLINE SVG -->
+  <svg class="hero-bg-skyline" viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00c8ff" stop-opacity="0.3"/><stop offset="100%" stop-color="#00c8ff" stop-opacity="0"/></linearGradient>
+    </defs>
+    <path fill="url(#skyG)" d="M0,320 L0,260 30,260 30,220 45,220 45,180 55,180 55,220 70,220 70,195 80,195 80,160 95,160 95,195 110,195 110,240 140,240 140,200 155,200 155,120 170,120 170,95 182,95 182,120 195,120 195,200 210,200 210,170 230,170 230,130 242,130 242,80 255,80 255,130 268,130 268,170 290,170 290,210 320,210 320,180 340,180 340,140 350,140 350,100 365,100 365,60 375,60 375,40 385,40 385,60 395,60 395,100 410,100 410,140 425,140 425,180 450,180 450,230 480,230 480,195 500,195 500,165 515,165 515,110 525,110 525,75 535,75 535,55 545,55 545,75 555,75 555,110 570,110 570,165 590,165 590,200 620,200 620,235 660,235 660,210 680,210 680,175 695,175 695,145 710,145 710,115 720,115 720,85 730,85 730,65 740,65 740,85 750,85 750,115 765,115 765,145 780,145 780,175 800,175 800,220 840,220 840,250 880,250 880,220 900,220 900,185 920,185 920,150 935,150 935,120 945,120 945,90 955,90 955,70 965,70 965,50 975,50 975,70 985,70 985,90 995,90 995,120 1010,120 1010,150 1030,150 1030,185 1060,185 1060,220 1100,220 1100,250 1130,250 1130,220 1150,220 1150,185 1170,185 1170,150 1185,150 1185,110 1195,110 1195,80 1210,80 1210,110 1225,110 1225,150 1245,150 1245,185 1270,185 1270,225 1310,225 1310,255 1350,255 1350,230 1380,230 1380,260 1440,260 L1440,320 Z"/>
+    <!-- WINDOWS -->
+    <g fill="#00c8ff" opacity="0.2">
+      <rect x="160" y="130" width="3" height="4"/><rect x="165" y="140" width="3" height="4"/><rect x="175" y="100" width="3" height="4"/><rect x="247" y="90" width="3" height="4"/><rect x="252" y="100" width="3" height="4"/>
+      <rect x="355" y="70" width="3" height="4"/><rect x="365" y="80" width="3" height="4"/><rect x="378" y="50" width="3" height="4"/><rect x="530" y="85" width="3" height="4"/><rect x="540" y="65" width="3" height="4"/>
+      <rect x="725" y="75" width="3" height="4"/><rect x="735" y="95" width="3" height="4"/><rect x="745" y="75" width="3" height="4"/><rect x="960" y="60" width="3" height="4"/><rect x="970" y="75" width="3" height="4"/>
+      <rect x="1190" y="90" width="3" height="4"/><rect x="1200" y="100" width="3" height="4"/><rect x="1210" y="85" width="3" height="4"/>
+    </g>
+  </svg>
+
+  <div class="hero-grid">
+    <div class="hero-left">
+      <div class="hero-location">New York City</div>
+      <h1 class="hero-name glitch" data-text="Emeric Z. Chang">Emeric Z. Chang</h1>
+      <div class="hero-sub">Political Science & Computer Science @ <a href="https://www.columbia.edu" target="_blank">Columbia University</a></div>
+      <div class="hero-sub-2">Policy, AI governance, federal law, and competitive archery.</div>
+      <div class="hero-pills">
+        <span class="hero-pill">USAO-DC Intern '26</span>
+        <span class="hero-pill">Sen. Becker's Office</span>
+        <span class="hero-pill">MIT NANDA Co-Dir.</span>
+        <span class="hero-pill">Policy Institute</span>
+        <span class="hero-pill">Sundial Writer</span>
+        <span class="hero-pill">USA Archery</span>
+      </div>
+      <div class="hero-links">
+        <a href="#contact" class="hero-link hero-link-primary">Get in touch →</a>
+        <span class="hero-link-sep">|</span>
+        <a href="#experience" class="hero-link hero-link-secondary">View experience →</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="portrait-frame" id="portraitFrame">
+        <span class="portrait-corner tl"></span>
+        <span class="portrait-corner tr"></span>
+        <span class="portrait-corner bl"></span>
+        <span class="portrait-corner br"></span>
+        <img id="portraitImg" src="" alt="Emeric Z. Chang" style="display:none;"/>
+        <div id="portraitUpload" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:0.6rem;padding:1.5rem;text-align:center;background:rgba(0,200,255,0.02);">
+          <div style="font-size:1.8rem;opacity:0.4;margin-bottom:0.3rem;">⬡</div>
+          <label style="font-family:var(--mono);font-size:0.62rem;color:var(--gold);border:1px solid rgba(201,168,76,0.25);padding:0.45rem 1.2rem;border-radius:2px;cursor:pointer;transition:all 0.2s;letter-spacing:0.12em;text-transform:uppercase;" onmouseover="this.style.background='rgba(201,168,76,0.08)';this.style.borderColor='var(--gold)'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(201,168,76,0.25)'">
+            Load Photo
+            <input type="file" accept="image/*" id="photoInput" style="display:none;"/>
+          </label>
+          <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text-dim);letter-spacing:0.1em;margin-top:0.2rem;">LOCAL ONLY — NEVER UPLOADED</div>
+        </div>
+        <div class="portrait-bar">Columbia ▪ Poli Sci ▪ CS ▪ Archery ▪ Policy ▪ Justice</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-label">// Article I</div>
+    <h2 class="section-title">About</h2>
+    <div class="about-grid">
+      <div class="about-bio">
+        <p>I'm a student at Columbia University pursuing dual degrees in Political Science and Computer Science — because the most interesting problems live where those two fields collide.</p>
+        <p>My work spans state legislative offices, AI policy research, federal prosecution, and the archery range. Whether I'm drafting a constituent newsletter, coordinating a network of student AI ambassadors, or competing at national tournaments, I'm drawn to the same question: how do systems work, and how do they fail the people inside them?</p>
+        <p>I write for the Sundial, research for the Columbia Policy Institute, and believe — perhaps stubbornly — that a 4.00 GPA and a bow and arrow are not mutually exclusive.</p>
+      </div>
+      <div>
+        <div class="stat-block">
+          <div class="label">Institution</div>
+          <div class="value">Columbia University</div>
+          <div class="sub">Columbia College — GPA: 4.00, Dean's List</div>
+        </div>
+        <div class="stat-block">
+          <div class="label">Degrees</div>
+          <div class="value">B.A. Political Science</div>
+          <div class="sub">B.A. Computer Science — Expected May 2029</div>
+        </div>
+        <div class="stat-block">
+          <div class="label">Activities</div>
+          <div class="value" style="font-size:0.85rem; line-height:1.6;">Pre-Law Society · AI Alignment Club · Policy Institute · Sundial · USA Archery</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="section-label">// Article II</div>
+    <h2 class="section-title">Experience</h2>
+
+    <div class="exhibit">
+      <div class="exhibit-date">Summer<br/>2026</div>
+      <div class="exhibit-body">
+        <div class="exhibit-label">Federal Law</div>
+        <div class="exhibit-title">Intern — U.S. Attorney's Office, D.C.</div>
+        <div class="exhibit-org">United States Department of Justice</div>
+        <div class="exhibit-desc">Upcoming summer internship with the U.S. Attorney's Office for the District of Columbia.</div>
+      </div>
+    </div>
+
+    <div class="exhibit">
+      <div class="exhibit-date">Feb 2026<br/>Present</div>
+      <div class="exhibit-body">
+        <div class="exhibit-label">Legislative</div>
+        <div class="exhibit-title">Winter Intern — Office of State Senator Josh Becker</div>
+        <div class="exhibit-org">California State Senate · Menlo Park, CA</div>
+        <div class="exhibit-desc"><ul>
+          <li>Produce constituent newsletters translating legislative updates into accessible summaries.</li>
+          <li>Collaborated to organize a town hall on AI's impact on the labor market, compiling 15+ potential panelists.</li>
+          <li>Lead initiative developing materials for underutilized government programs for low-income communities.</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div class="exhibit">
+      <div class="exhibit-date">Aug 2025<br/>Present</div>
+      <div class="exhibit-body">
+        <div class="exhibit-label">AI Policy</div>
+        <div class="exhibit-title">Co-Director, NANDAShapers / NSAP</div>
+        <div class="exhibit-org">MIT Project NANDA · Palo Alto & New York</div>
+        <div class="exhibit-desc"><ul>
+          <li>Coordinate 40+ ambassadors at 30+ institutions at the intersection of AI, policy, and youth activism.</li>
+          <li>Built NANDAShapers website; manage LinkedIn and Discord community.</li>
+          <li>Partnered with Project Young Minds to bring AI education to rural Nepal.</li>
+        </ul>
+        <span class="award">Horasis Youth Fellowship Award 2025</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exhibit">
+      <div class="exhibit-date">Sep 2025<br/>Present</div>
+      <div class="exhibit-body">
+        <div class="exhibit-label">Research</div>
+        <div class="exhibit-title">Researcher & Writer</div>
+        <div class="exhibit-org">Columbia Policy Institute (Tech Center) · New York, NY</div>
+        <div class="exhibit-desc"><ul>
+          <li>Surveyed 16 Core Curriculum syllabi and 25+ peer institutions, generating a proposal to standardize classroom AI policies — endorsed by Columbia College Student Council.</li>
+          <li>Authored policy brief for greater federal incentives for open-source AI development.</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div class="exhibit">
+      <div class="exhibit-date">Sep 2025<br/>Present</div>
+      <div class="exhibit-body">
+        <div class="exhibit-label">Journalism</div>
+        <div class="exhibit-title">Staff Writer & Staff Editor</div>
+        <div class="exhibit-org">Columbia Sundial · New York, NY</div>
+        <div class="exhibit-desc"><ul>
+          <li>Reported on the Morningside Institute — interviewing director Nathaniel Peters and publishing on the liberal arts.</li>
+          <li>Edits and provides feedback for 20+ writers.</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div class="exhibit">
+      <div class="exhibit-date">2016<br/>Present</div>
+      <div class="exhibit-body">
+        <div class="exhibit-label">Athletics</div>
+        <div class="exhibit-title">Competitive Archer — Olympic Recurve</div>
+        <div class="exhibit-org">USA Archery · National Level</div>
+        <div class="exhibit-desc"><ul>
+          <li>U21 Junior Men: ranked 32nd/42nd nationally, 4th/5th in California.</li>
+          <li>Competed in Paris Olympic Trials (85th) and Vegas Shoot (10th worldwide).</li>
+          <li>8 top-3 finishes. USA Archery Level 1 & 2 Certified Coach.</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <!-- HONORS COMPACT -->
+    <div class="honors-block">
+      <div class="honors-title">Academic Honors & Distinctions</div>
+      <span class="award">John Locke Institute — High Distinction in Politics (Top 5%)</span>
+      <span class="award">Profiles in Courage — Certificate of Excellence</span>
+      <span class="award">Mock Trial: County Certificate of Excellence</span>
+      <span class="award">MockOn TOC Outstanding Witness</span>
+      <span class="award">AP Scholar with Distinction</span>
+      <span class="award">World Languages Award '25</span>
+      <span class="award">Graduation Speaker — Woodside Priory</span>
+    </div>
+  </div>
+</section>
+
+<!-- INTERESTS -->
+<section id="interests">
+  <div class="section-inner">
+    <div class="section-label">// Article III</div>
+    <h2 class="section-title">Interests & Hobbies</h2>
+    <div class="interest-grid">
+      <div class="interest-card">
+        <div class="interest-icon">🏹</div>
+        <div class="interest-name">Olympic Archery</div>
+        <div class="interest-note">Paris Olympic Trials, Vegas Shoot top-10, and a decade of precision at the line.</div>
+      </div>
+      <div class="interest-card">
+        <div class="interest-icon">📖</div>
+        <div class="interest-name">Classic Literature</div>
+        <div class="interest-note">Characters who know exactly what they're doing — and the critics trying to catch them.</div>
+      </div>
+      <div class="interest-card">
+        <div class="interest-icon">♟️</div>
+        <div class="interest-name">Speed Chess</div>
+        <div class="interest-note">Blitz and bullet. The game compressed to its sharpest form.</div>
+      </div>
+      <div class="interest-card">
+        <div class="interest-icon">🎵</div>
+        <div class="interest-name">EDM & Indie Pop</div>
+        <div class="interest-note">Two genres that have no business together but somehow do.</div>
+      </div>
+      <div class="interest-card">
+        <div class="interest-icon">⚖️</div>
+        <div class="interest-name">Law & Policy</div>
+        <div class="interest-note">From mock trial to the USAO — how institutions encode and exercise power.</div>
+      </div>
+      <div class="interest-card">
+        <div class="interest-icon">🤖</div>
+        <div class="interest-name">AI & Society</div>
+        <div class="interest-note">Not just what models can do, but who writes the rules for them.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-label">// Article IV</div>
+    <h2 class="section-title">Contact</h2>
+    <p style="color:var(--text-dim); max-width:480px; margin: 0 auto 1rem; font-style:italic;">Open to conversation, collaboration, and correspondence.</p>
+    <div class="contact-links">
+      <a href="mailto:ezc2107@columbia.edu" class="contact-link">Email</a>
+      <a href="https://www.linkedin.com/in/emericzchang" target="_blank" class="contact-link">LinkedIn</a>
+      <a href="https://projectnanda.org/#/./home/nyc" target="_blank" class="contact-link">NANDAShapers</a>
+    </div>
+  </div>
+</section>
+
+<!-- HIDDEN FAVORITES EASTER EGG -->
+<div class="favorites-overlay" id="favOverlay">
+  <div class="favorites-panel">
+    <button class="favorites-close" id="favClose">[ESC] CLOSE</button>
+    <div class="favorites-header-label">// Sealed Exhibit — Classified</div>
+    <div class="favorites-header">Emeric's Favorites</div>
+    <div class="favorites-subtext">You found the hidden docket. Here's what's off the record.</div>
+    <div class="fav-grid">
+      <div class="fav-category">
+        <div class="fav-cat-label">Food & Drink</div>
+        <div class="fav-item"><span>Chocolate Milk</span><span class="fav-note">non-negotiable</span></div>
+        <div class="fav-item"><span>Any Savory Soup</span><span class="fav-note">all of them</span></div>
+        <div class="fav-item"><span>Shēngjiān Bāo</span><span class="fav-note">pan-fried perfection</span></div>
+      </div>
+      <div class="fav-category">
+        <div class="fav-cat-label">Music</div>
+        <div class="fav-item"><span>Gooey</span><span class="fav-note">Glass Animals</span></div>
+        <div class="fav-item"><span>Polish Girl</span><span class="fav-note">Neon Indian</span></div>
+        <div class="fav-item"><span>Arrow</span><span class="fav-note">Half Alive</span></div>
+      </div>
+      <div class="fav-category">
+        <div class="fav-cat-label">Books</div>
+        <div class="fav-item"><span>Speaker for the Dead</span><span class="fav-note">Orson Scott Card</span></div>
+        <div class="fav-item"><span>Norwegian Wood</span><span class="fav-note">Haruki Murakami</span></div>
+        <div class="fav-item"><span>Severance</span><span class="fav-note">Ling Ma</span></div>
+      </div>
+      <div class="fav-category">
+        <div class="fav-cat-label">Shows & Film</div>
+        <div class="fav-item"><span>Never Have I Ever</span><span class="fav-note">comedy / drama</span></div>
+        <div class="fav-item"><span>Ajin: Demi-Human</span><span class="fav-note">anime / thriller</span></div>
+        <div class="fav-item"><span>Beef</span><span class="fav-note">dark comedy</span></div>
+      </div>
+      <div class="fav-category">
+        <div class="fav-cat-label">Subjects & Ideas</div>
+        <div class="fav-item"><span>Cyberpunk</span><span class="fav-note">genre + philosophy</span></div>
+        <div class="fav-item"><span>Con Law × Tech</span><span class="fav-note">the intersection</span></div>
+        <div class="fav-item"><span>Great Literature</span><span class="fav-note">classics · Nobel · Pulitzer</span></div>
+      </div>
+      <div class="fav-category">
+        <div class="fav-cat-label">Guilty Pleasures</div>
+        <div class="fav-item"><span>Manga / Manhwa / Manhua</span><span class="fav-note">all three</span></div>
+        <div class="fav-item"><span>Rom-Coms</span><span class="fav-note">zero shame</span></div>
+        <div class="fav-item"><span>Perpetual Earbuds</span><span class="fav-note">always playing something</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  &copy; <span id="yr"></span> Emeric Z. Chang &nbsp;|&nbsp; Columbia University &nbsp;|&nbsp; New York City
+  <script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+</footer>
+
+<!-- SCROLLING TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track" id="ticker"></div>
+</div>
+
+<script>
+const items = [
+  'Olympic Recurve Archery', 'Political Science', 'Computer Science',
+  'AI Governance', 'Constitutional Law', 'Speed Chess',
+  'Classic Literature', 'EDM & Indie Pop', 'Policy Research',
+  'Federal Law', 'Journalism', 'Data Analysis'
+];
+const sep = ' <span style="color:#005f7a;margin:0 1rem">◆</span> ';
+const track = document.getElementById('ticker');
+const str = items.join(sep) + sep;
+track.innerHTML = str + str; // duplicate for seamless loop
+
+// LOCAL PHOTO LOADER
+const photoInput = document.getElementById('photoInput');
+const portraitImg = document.getElementById('portraitImg');
+const portraitUpload = document.getElementById('portraitUpload');
+photoInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    portraitImg.src = ev.target.result;
+    portraitImg.style.display = 'block';
+    portraitUpload.style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+});
+
+// EASTER EGG
+const portrait = document.getElementById('portraitFrame');
+const overlay = document.getElementById('favOverlay');
+const closeBtn = document.getElementById('favClose');
+portrait.addEventListener('click', () => {
+  overlay.style.display = 'flex';
+  requestAnimationFrame(() => { overlay.style.opacity = '1'; });
+});
+function closeFav() {
+  overlay.style.opacity = '0';
+  setTimeout(() => { overlay.style.display = 'none'; }, 400);
+}
+closeBtn.addEventListener('click', closeFav);
+overlay.addEventListener('click', (e) => { if (e.target === overlay) closeFav(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay.style.display === 'flex') closeFav(); });
+
+// SIDE NAV ACTIVE STATE
+const dots = document.querySelectorAll('.side-nav a');
+const sections = ['hero','about','experience','interests','contact'];
+function updateSideNav() {
+  let current = 'hero';
+  for (const id of sections) {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top <= 200) current = id;
+  }
+  dots.forEach(a => {
+    const href = a.getAttribute('href').replace('#','');
+    const dot = a.querySelector('.dot');
+    if (href === current) {
+      dot.style.background = 'var(--gold)';
+      dot.style.borderColor = 'var(--gold)';
+      dot.style.boxShadow = '0 0 8px var(--gold-glow)';
+    } else {
+      dot.style.background = 'transparent';
+      dot.style.borderColor = 'var(--gold-dim)';
+      dot.style.boxShadow = 'none';
+    }
+  });
+}
+window.addEventListener('scroll', updateSideNav);
+updateSideNav();
+</script>
+
+</body>
+</html>
