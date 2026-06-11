@@ -424,10 +424,6 @@ function drawNoise(){nf++;if(nf%3!==0){requestAnimationFrame(drawNoise);return;}
 const toggle=document.getElementById('themeToggle');const toggleIcon=document.getElementById('toggleIcon');const toggleLabel=document.getElementById('toggleLabel');
 toggle.addEventListener('click',()=>{isCyber=!isCyber;document.body.classList.toggle('theme-law',!isCyber);toggleIcon.textContent=isCyber?'⚡':'⚖';toggleLabel.textContent=isCyber?'CYBER':'LAW';});
 
-// PHOTO
-const photoInput=document.getElementById('photoInput');const portraitImg=document.getElementById('portraitImg');const portraitUpload=document.getElementById('portraitUpload');
-photoInput.addEventListener('change',(e)=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=(ev)=>{portraitImg.src=ev.target.result;portraitImg.style.display='block';portraitUpload.style.display='none';};r.readAsDataURL(f);});
-
 // EASTER EGG: FAVORITES
 const portrait=document.getElementById('portraitFrame');const overlay=document.getElementById('favOverlay');const closeBtn=document.getElementById('favClose');
 portrait.addEventListener('click',(e)=>{if(e.target.closest('label')||e.target.closest('input'))return;overlay.style.display='flex';requestAnimationFrame(()=>{overlay.style.opacity='1';});});
