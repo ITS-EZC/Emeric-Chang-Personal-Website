@@ -440,6 +440,97 @@ revealSections.forEach(s=>s.classList.add('reveal'));
 const revealObs=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting&&entry.target.classList.contains('reveal')){entry.target.classList.remove('reveal');entry.target.classList.add(document.body.classList.contains('theme-law')?'law-enter':'cyber-enter');revealObs.unobserve(entry.target);}});},{threshold:0.12,rootMargin:'0px 0px -60px 0px'});
 revealSections.forEach(s=>revealObs.observe(s));
 
+// ============ PARALLAX SYSTEM ============
+const heroLeft=document.getElementById('heroLeft');
+const heroRight=document.getElementById('heroRight');
+const skyline=document.getElementById('skyline');
+const tickerWrap=document.getElementById('tickerWrap');
+const plxFloats=document.querySelectorAll('.plx-float');
+const dataPoly=document.getElementById('dataPoly');
+const pulseGlow=document.getElementById('pulseGlow');
+const radarDots=document.getElementById('radarDots');
+const radarSvg=document.getElementById('radarSvg');
+
+// Radar full points
+const radarFull=[[150,30],[264,87],[264,213],[150,270],[36,213],[36,87]];
+const radarCenter=[150,150];
+let radarDrawn=false;
+
+function lerp(a,b,t){return a+(b-a)*t}
+function clamp(v,min,max){return Math.min(Math.max(v,min),max)}
+
+function parallaxLoop(){
+  const scrollY=Math.round(window.scrollY);
+  const vh=window.innerHeight;
+  const docH=document.body.scrollHeight;
+
+  // HERO LAYERS — different speeds create depth
+  if(scrollY<vh*1.5){
+    const heroProgress=scrollY/vh;
+    // Skyline: slowest (stays behind)
+    skyline.style.transform='translate3d(0,'+Math.round(scrollY*0.15)+'px,0)';
+    // Hero left: normal with slight upward drift
+    heroLeft.style.transform='translate3d(0,'+Math.round(scrollY*0.08)+'px,0)';
+    heroLeft.style.opacity=+(1-heroProgress*0.8).toFixed(2);
+    // Hero right/portrait: drifts up faster, recedes
+    const pScale=+(1-heroProgress*0.12).toFixed(3);
+    const pY=Math.round(scrollY*-0.15);
+    heroRight.style.transform='translate3d(0,'+pY+'px,0) scale('+clamp(pScale,0.7,1)+')';
+    heroRight.style.opacity=+(1-heroProgress*1.1).toFixed(2);
+  }
+
+  // PERSISTENT SKYLINE — fades through about section
+  const skylineFade=clamp(1-(scrollY-vh*0.5)/(vh*0.8),0,1);
+  if(!document.body.classList.contains('theme-law')){
+    skyline.style.opacity=+(0.12*skylineFade).toFixed(3);
+  }
+
+  // FLOATING PARALLAX ELEMENTS
+  plxFloats.forEach(el=>{
+    const parent=el.parentElement;
+    const rect=parent.getBoundingClientRect();
+    if(rect.bottom<-200||rect.top>vh+200)return;
+    const speed=parseFloat(el.dataset.plxSpeed)||0.1;
+    const offset=Math.round((rect.top-vh*0.5)*speed);
+    el.style.transform='translate3d(0,'+offset+'px,0)';
+  });
+
+  // TICKER micro-parallax
+  const tickerY=Math.round(Math.sin(scrollY*0.008)*3);
+  tickerWrap.style.transform='translate3d(0,'+tickerY+'px,0)';
+
+  // RADAR DRAW ON SCROLL — expand from center as skills section enters
+  if(!radarDrawn&&radarSvg){
+    const radarRect=radarSvg.getBoundingClientRect();
+    if(radarRect.top<vh*0.75&&radarRect.bottom>0){
+      const progress=clamp((vh*0.75-radarRect.top)/(vh*0.4),0,1);
+      const t=+(progress).toFixed(3);
+      const pts=radarFull.map((p,i)=>{
+        const x=Math.round(lerp(radarCenter[0],p[0],t));
+        const y=Math.round(lerp(radarCenter[1],p[1],t));
+        return x+','+y;
+      }).join(' ');
+      dataPoly.setAttribute('points',pts);
+      pulseGlow.setAttribute('points',pts);
+      // Move dots
+      const dotEls=radarDots.querySelectorAll('circle');
+      radarFull.forEach((p,i)=>{
+        if(dotEls[i]){
+          dotEls[i].setAttribute('cx',Math.round(lerp(radarCenter[0],p[0],t)));
+          dotEls[i].setAttribute('cy',Math.round(lerp(radarCenter[1],p[1],t)));
+        }
+      });
+      if(t>=1)radarDrawn=true;
+    }
+  }
+
+  // SIDE NAV
+  updateSideNav();
+
+  window.requestAnimationFrame(parallaxLoop);
+}
+window.requestAnimationFrame(parallaxLoop);
+  
 // ============ EASTER EGGS ============
 
 // 1. LOGO BOOT
