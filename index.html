@@ -176,14 +176,14 @@
 
 <!-- HERO -->
 <section id="hero">
-  <svg class="hero-bg-skyline" viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <svg class="radar-svg" id="radarSvg" viewBox="-60 -20 420 350" xmlns="http://www.w3.org/2000/svg">
     <defs><linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00c8ff" stop-opacity="0.3"/><stop offset="100%" stop-color="#00c8ff" stop-opacity="0"/></linearGradient></defs>
     <path fill="url(#skyG)" d="M0,320 L0,260 30,260 30,220 45,220 45,180 55,180 55,220 70,220 70,195 80,195 80,160 95,160 95,195 110,195 110,240 140,240 140,200 155,200 155,120 170,120 170,95 182,95 182,120 195,120 195,200 210,200 210,170 230,170 230,130 242,130 242,80 255,80 255,130 268,130 268,170 290,170 290,210 320,210 320,180 340,180 340,140 350,140 350,100 365,100 365,60 375,60 375,40 385,40 385,60 395,60 395,100 410,100 410,140 425,140 425,180 450,180 450,230 480,230 480,195 500,195 500,165 515,165 515,110 525,110 525,75 535,75 535,55 545,55 545,75 555,75 555,110 570,110 570,165 590,165 590,200 620,200 620,235 660,235 660,210 680,210 680,175 695,175 695,145 710,145 710,115 720,115 720,85 730,85 730,65 740,65 740,85 750,85 750,115 765,115 765,145 780,145 780,175 800,175 800,220 840,220 840,250 880,250 880,220 900,220 900,185 920,185 920,150 935,150 935,120 945,120 945,90 955,90 955,70 965,70 965,50 975,50 975,70 985,70 985,90 995,90 995,120 1010,120 1010,150 1030,150 1030,185 1060,185 1060,220 1100,220 1100,250 1130,250 1130,220 1150,220 1150,185 1170,185 1170,150 1185,150 1185,110 1195,110 1195,80 1210,80 1210,110 1225,110 1225,150 1245,150 1245,185 1270,185 1270,225 1310,225 1310,255 1350,255 1350,230 1380,230 1380,260 1440,260 L1440,320 Z"/>
     <g fill="#00c8ff" opacity="0.2"><rect x="160" y="130" width="3" height="4"/><rect x="165" y="140" width="3" height="4"/><rect x="175" y="100" width="3" height="4"/><rect x="247" y="90" width="3" height="4"/><rect x="355" y="70" width="3" height="4"/><rect x="530" y="85" width="3" height="4"/><rect x="725" y="75" width="3" height="4"/><rect x="960" y="60" width="3" height="4"/><rect x="1190" y="90" width="3" height="4"/></g>
     <g class="skyline-extra-windows" fill="#00c8ff" opacity="0.6"><rect x="170" y="110" width="3" height="4"/><rect x="180" y="125" width="3" height="4"/><rect x="242" y="105" width="3" height="4"/><rect x="258" y="115" width="3" height="4"/><rect x="350" y="85" width="3" height="4"/><rect x="370" y="95" width="3" height="4"/><rect x="382" y="55" width="3" height="4"/><rect x="390" y="68" width="3" height="4"/><rect x="525" y="70" width="3" height="4"/><rect x="545" y="80" width="3" height="4"/><rect x="535" y="60" width="3" height="4"/><rect x="720" y="90" width="3" height="4"/><rect x="738" y="70" width="3" height="4"/><rect x="748" y="82" width="3" height="4"/><rect x="955" y="75" width="3" height="4"/><rect x="968" y="55" width="3" height="4"/><rect x="978" y="65" width="3" height="4"/><rect x="1195" y="78" width="3" height="4"/><rect x="1205" y="95" width="3" height="4"/><rect x="1215" y="72" width="3" height="4"/></g>
   </svg>
   <div class="hero-grid">
-    <div class="hero-left">
+    <div class="hero-left"> id="heroLeft">
       <div class="hero-location">New York City</div>
       <h1 class="hero-name glitch" data-text="Emeric Z. Chang">Emeric Z. Chang</h1>
       <div class="hero-sub">Political Science & Computer Science @ <a href="https://www.columbia.edu" target="_blank">Columbia University</a></div>
@@ -200,7 +200,7 @@
         <a href="#experience" class="hero-link hero-link-secondary">View experience →</a>
       </div>
     </div>
-    <div class="hero-right">
+    <div class="hero-right"> id="heroRight">
       <div class="portrait-frame" id="portraitFrame">
         <span class="portrait-corner tl"></span><span class="portrait-corner tr"></span><span class="portrait-corner bl"></span><span class="portrait-corner br"></span>
         <img id="portraitImg" src="./images/DSC01828.JPG" alt="Emeric Z. Chang" />
@@ -278,69 +278,33 @@
 
 <!-- SKILLS -->
 <section id="skills">
+  <div class="plx-float cyber-float" data-plx-speed="0.16" style="top:12%;right:6%">SKILL_TREE<br>LOADED: 100%</div>
+  <div class="plx-float law-float" data-plx-speed="0.1" style="top:10%;right:4%">DEPOSITION OF<br>TECHNICAL EXPERTISE</div>
   <div class="section-inner">
     <div class="section-label">// Article IV</div>
     <h2 class="section-title">Skills & Tools</h2>
     <div class="skills-container">
-      <div class="skills-radar">
-        <div class="radar-wrap">
-          <svg class="radar-svg" viewBox="-60 -20 420 350" xmlns="http://www.w3.org/2000/svg">
-            <g stroke="rgba(0,200,255,0.1)" fill="none" stroke-width="0.5"><polygon points="150,30 264,87 264,213 150,270 36,213 36,87"/><polygon points="150,60 234,102 234,198 150,240 66,198 66,102"/><polygon points="150,90 204,117 204,183 150,210 96,183 96,117"/><polygon points="150,120 174,132 174,168 150,180 126,168 126,132"/></g>
-            <g stroke="rgba(0,200,255,0.08)" stroke-width="0.5"><line x1="150" y1="30" x2="150" y2="270"/><line x1="36" y1="87" x2="264" y2="213"/><line x1="264" y1="87" x2="36" y2="213"/></g>
-            <polygon class="data-poly" fill="rgba(0,200,255,0.15)" stroke="#00c8ff" stroke-width="1.5" points="150,30 264,87 264,213 150,270 36,213 36,87"/>
-            <circle class="radar-ring" cx="150" cy="150" r="0"/>
-            <circle cx="150" cy="150" r="20" fill="transparent" style="cursor:inherit" id="radarCenter"/>
-            <g fill="#00c8ff"><circle cx="150" cy="30" r="4"/><circle cx="264" cy="87" r="4"/><circle cx="264" cy="213" r="4"/><circle cx="150" cy="270" r="4"/><circle cx="36" cy="213" r="4"/><circle cx="36" cy="87" r="4"/></g>
-            <g font-family="Share Tech Mono" font-size="9" fill="#6a7a90"><text x="150" y="16" text-anchor="middle">WRITING</text><text x="282" y="87" text-anchor="start">POLICY</text><text x="282" y="218" text-anchor="start">PROGRAMMING</text><text x="150" y="296" text-anchor="middle">STATISTICS</text><text x="18" y="218" text-anchor="end">LANGUAGES</text><text x="18" y="87" text-anchor="end">RESEARCH</text></g>
-            <polygon fill="none" stroke="#00c8ff" stroke-width="0.5" opacity="0.3" points="150,30 264,87 264,213 150,270 36,213 36,87"><animate attributeName="stroke-width" values="0.5;2;0.5" dur="3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.3;0.6;0.3" dur="3s" repeatCount="indefinite"/></polygon>
-          </svg>
-          <div class="radar-sidebar">
-            <div class="radar-sidebar-title">Writing & Research</div>
-            <div class="radar-sidebar-item">Journalism & Feature Writing</div>
-            <div class="radar-sidebar-item">Legal Briefs and Motions</div>
-            <div class="radar-sidebar-item">Essay & Creative Nonfiction</div>
-            <div class="radar-sidebar-item">Qualitative & Quantitative Methods</div>
-            <div class="radar-sidebar-item">Institutional & Legislative Research</div>
-            <div class="radar-sidebar-title" style="margin-top:0.6rem">Technical Competencies</div>
-            <div class="radar-sidebar-item">Python · R · C++ · Java</div>
-            <div class="radar-sidebar-item">Data Analysis & Visualization</div>
-            <div class="radar-sidebar-item">Statistical Methods</div>
-            <div class="radar-sidebar-item">Microsoft Office · Google Suite</div>
-            <div class="radar-sidebar-item">DaVinci Resolve · Canva</div>
-            <div class="radar-sidebar-item">Social Media Management</div>
-            <div class="radar-sidebar-title" style="margin-top:0.6rem">Languages</div>
-            <div class="radar-sidebar-item">English</div>
-            <div class="radar-sidebar-item">Spanish</div>
-            <div class="radar-sidebar-item">Mandarin · Shanghainese</div>
-          </div>
+      <div class="skills-radar"><div class="radar-wrap">
+        <svg class="radar-svg" id="radarSvg" viewBox="-60 -20 420 350" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="rgba(0,200,255,0.1)" fill="none" stroke-width="0.5"><polygon points="150,30 264,87 264,213 150,270 36,213 36,87"/><polygon points="150,60 234,102 234,198 150,240 66,198 66,102"/><polygon points="150,90 204,117 204,183 150,210 96,183 96,117"/><polygon points="150,120 174,132 174,168 150,180 126,168 126,132"/></g>
+          <g stroke="rgba(0,200,255,0.08)" stroke-width="0.5"><line x1="150" y1="30" x2="150" y2="270"/><line x1="36" y1="87" x2="264" y2="213"/><line x1="264" y1="87" x2="36" y2="213"/></g>
+          <polygon class="data-poly" id="dataPoly" fill="rgba(0,200,255,0.15)" stroke="#00c8ff" stroke-width="1.5" points="150,150 150,150 150,150 150,150 150,150 150,150"/>
+          <circle class="radar-ring" cx="150" cy="150" r="0"/>
+          <circle cx="150" cy="150" r="20" fill="transparent" style="cursor:inherit" id="radarCenter"/>
+          <g fill="#00c8ff" id="radarDots"><circle cx="150" cy="150" r="4"/><circle cx="150" cy="150" r="4"/><circle cx="150" cy="150" r="4"/><circle cx="150" cy="150" r="4"/><circle cx="150" cy="150" r="4"/><circle cx="150" cy="150" r="4"/></g>
+          <g font-family="Share Tech Mono" font-size="9" fill="#6a7a90"><text x="150" y="16" text-anchor="middle">WRITING</text><text x="282" y="87" text-anchor="start">POLICY</text><text x="282" y="218" text-anchor="start">PROGRAMMING</text><text x="150" y="296" text-anchor="middle">STATISTICS</text><text x="18" y="218" text-anchor="end">LANGUAGES</text><text x="18" y="87" text-anchor="end">RESEARCH</text></g>
+          <polygon fill="none" stroke="#00c8ff" stroke-width="0.5" opacity="0.3" id="pulseGlow" points="150,150 150,150 150,150 150,150 150,150 150,150"><animate attributeName="stroke-width" values="0.5;2;0.5" dur="3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.3;0.6;0.3" dur="3s" repeatCount="indefinite"/></polygon>
+        </svg>
+        <div class="radar-sidebar">
+          <div class="radar-sidebar-title">Writing & Research</div><div class="radar-sidebar-item">Journalism & Feature Writing</div><div class="radar-sidebar-item">Legal Briefs and Motions</div><div class="radar-sidebar-item">Essay & Creative Nonfiction</div><div class="radar-sidebar-item">Qualitative & Quantitative Methods</div><div class="radar-sidebar-item">Institutional & Legislative Research</div>
+          <div class="radar-sidebar-title" style="margin-top:0.6rem">Technical Competencies</div><div class="radar-sidebar-item">Python · R · C++ · Java</div><div class="radar-sidebar-item">Data Analysis & Visualization</div><div class="radar-sidebar-item">Statistical Methods</div><div class="radar-sidebar-item">Microsoft Office · Google Suite</div><div class="radar-sidebar-item">DaVinci Resolve · Canva</div><div class="radar-sidebar-item">Social Media Management</div>
+          <div class="radar-sidebar-title" style="margin-top:0.6rem">Languages</div><div class="radar-sidebar-item">English</div><div class="radar-sidebar-item">Spanish</div><div class="radar-sidebar-item">Mandarin · Shanghainese</div>
         </div>
-      </div>
+      </div></div>
       <div class="skills-exhibit">
-        <div class="exhibit-list">
-          <div class="exhibit-list-header"><span class="exhibit-list-title">Exhibit A — Writing & Research</span><span class="exhibit-list-no">SKILLS DOCKET</span></div>
-          <div class="exhibit-row"><span class="exhibit-row-name">Journalism & Feature Writing</span></div>
-          <div class="exhibit-row"><span class="exhibit-row-name">Legal Briefs and Motions</span></div>
-          <div class="exhibit-row"><span class="exhibit-row-name">Essay & Creative Nonfiction</span></div>
-          <div class="exhibit-row"><span class="exhibit-row-name">Qualitative & Quantitative Methods</span></div>
-          <div class="exhibit-row"><span class="exhibit-row-name">Institutional & Legislative Research</span></div>
-        </div>
-        <div class="exhibit-list" style="margin-top:1rem">
-          <div class="exhibit-list-header"><span class="exhibit-list-title">Exhibit B — Technical Competencies</span><span class="exhibit-list-no">TECHNICAL DOCKET</span></div>
-          <div class="exhibit-row"><span class="exhibit-row-name">Python · R · C++ · Java</span></div>
-          <div class="exhibit-row"><span class="exhibit-row-name">Data Analysis & Visualization</span></div>
-          <div class="exhibit-row"><span class="exhibit-row-name">Statistical Methods</span></div>
-          <div class="exhibit-row"><span class="exhibit-row-name">Microsoft Office · Google Suite</span></div>
-          <div class="exhibit-row"><span class="exhibit-row-name">DaVinci Resolve · Canva</span></div>
-          <div class="exhibit-row"><span class="exhibit-row-name">Social Media Management</span></div>
-        </div>
-        <div class="exhibit-list" style="margin-top:1rem">
-          <div class="exhibit-list-header"><span class="exhibit-list-title">Exhibit C — Languages</span><span class="exhibit-list-no">LANGUAGE DOCKET</span></div>
-          <div class="exhibit-row"><span class="exhibit-row-name">English</span></div>
-          <div class="exhibit-row"><span class="exhibit-row-name">Spanish</span></div>
-          <div class="exhibit-row"><span class="exhibit-row-name">Mandarin</span></div>
-          <div class="exhibit-row"><span class="exhibit-row-name">Shanghainese</span></div>
-          <div class="exhibit-row legalese-row" id="legalRow"><span class="exhibit-row-name">Legalese — Fluent</span></div>
-        </div>
+        <div class="exhibit-list"><div class="exhibit-list-header"><span class="exhibit-list-title">Exhibit A — Writing & Research</span><span class="exhibit-list-no">SKILLS DOCKET</span></div><div class="exhibit-row"><span class="exhibit-row-name">Journalism & Feature Writing</span></div><div class="exhibit-row"><span class="exhibit-row-name">Legal Briefs and Motions</span></div><div class="exhibit-row"><span class="exhibit-row-name">Essay & Creative Nonfiction</span></div><div class="exhibit-row"><span class="exhibit-row-name">Qualitative & Quantitative Methods</span></div><div class="exhibit-row"><span class="exhibit-row-name">Institutional & Legislative Research</span></div></div>
+        <div class="exhibit-list" style="margin-top:1rem"><div class="exhibit-list-header"><span class="exhibit-list-title">Exhibit B — Technical Competencies</span><span class="exhibit-list-no">TECHNICAL DOCKET</span></div><div class="exhibit-row"><span class="exhibit-row-name">Python · R · C++ · Java</span></div><div class="exhibit-row"><span class="exhibit-row-name">Data Analysis & Visualization</span></div><div class="exhibit-row"><span class="exhibit-row-name">Statistical Methods</span></div><div class="exhibit-row"><span class="exhibit-row-name">Microsoft Office · Google Suite</span></div><div class="exhibit-row"><span class="exhibit-row-name">DaVinci Resolve · Canva</span></div><div class="exhibit-row"><span class="exhibit-row-name">Social Media Management</span></div></div>
+        <div class="exhibit-list" style="margin-top:1rem"><div class="exhibit-list-header"><span class="exhibit-list-title">Exhibit C — Languages</span><span class="exhibit-list-no">LANGUAGE DOCKET</span></div><div class="exhibit-row"><span class="exhibit-row-name">English</span></div><div class="exhibit-row"><span class="exhibit-row-name">Spanish</span></div><div class="exhibit-row"><span class="exhibit-row-name">Mandarin</span></div><div class="exhibit-row"><span class="exhibit-row-name">Shanghainese</span></div><div class="exhibit-row legalese-row" id="legalRow"><span class="exhibit-row-name">Legalese — Fluent</span></div></div>
       </div>
     </div>
   </div>
@@ -399,9 +363,10 @@
 
 <footer>&copy; <span id="yr"></span> Emeric Z. Chang &nbsp;|&nbsp; Columbia University &nbsp;|&nbsp; New York City<script>document.getElementById('yr').textContent=new Date().getFullYear();</script></footer>
 
-<div class="ticker-wrap"><div class="ticker-track" id="ticker"></div></div>
+<div class="ticker-wrap" id="tickerWrap"><div class="ticker-track" id="ticker"></div></div>
 
 <script>
+// TICKER
 const items=['Olympic Recurve Archery','Political Science','Computer Science','AI Governance','Constitutional Law','Speed Chess','Classic Literature','EDM & Indie Pop','Policy Research','Federal Law','Journalism','Data Analysis'];
 const sep='<span style="color:var(--neon-dim);margin:0 1rem">◆</span>';
 const track=document.getElementById('ticker');
