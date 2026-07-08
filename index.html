@@ -6,6 +6,11 @@ code
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Emeric Z. Chang</title>
+<link rel="icon" href="./images/favicon.ico" sizes="any"/>
+<link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png"/>
+<link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png"/>
+<link rel="icon" type="image/png" sizes="48x48" href="./images/favicon-48x48.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png"/>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Share+Tech+Mono&family=Cinzel:wght@700;900&family=Playfair+Display:ital@1&display=swap');
 
@@ -113,7 +118,93 @@ code
   .law-enter .section-label{animation:lawLabel 0.5s ease forwards;opacity:0;animation-delay:0.05s}@keyframes lawLabel{0%{opacity:0;transform:translateX(-15px)}100%{opacity:1;transform:translateX(0)}}
   .law-enter .about-bio{animation:lawInk 0.6s ease forwards;opacity:0;animation-delay:0.15s}
 
+  /* ============ GUTTER DECOR — side-space enrichment ============ */
+  /* theme-swapped visibility (for decor whose content differs per mode) */
+  .tmode-cyber{transition:opacity 0.5s}.tmode-law{opacity:0;transition:opacity 0.5s}
+  body.theme-law .tmode-cyber{opacity:0}body.theme-law .tmode-law{opacity:1}
+
+  /* GLOBAL SIDE RAILS */
+  .side-rail{position:fixed;top:52px;bottom:32px;width:1px;z-index:2;pointer-events:none}
+  .side-rail.left{left:80px}.side-rail.right{right:80px}
+  .rail-line{position:absolute;inset:0}
+  body:not(.theme-law) .rail-line{background:repeating-linear-gradient(to bottom,rgba(0,200,255,0.16) 0 5px,transparent 5px 13px)}
+  body.theme-law .rail-line{background:rgba(107,76,30,0.16)}
+  .rail-mark{position:absolute;left:50%;transform:translate(-50%,0);font-family:var(--mono);font-size:0.6rem;line-height:1;color:var(--neon);opacity:0.55;will-change:top}
+  body.theme-law .rail-mark{font-family:var(--serif);color:var(--gold);font-size:0.9rem;opacity:0.5}
+  .rail-mark .rm-c{display:inline}.rail-mark .rm-l{display:none}
+  body.theme-law .rail-mark .rm-c{display:none}body.theme-law .rail-mark .rm-l{display:inline}
+
+  /* HERO SIDE COLUMNS */
+  .hero-col{position:absolute;top:0;bottom:0;width:160px;overflow:hidden;z-index:0;pointer-events:none;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 12%,#000 88%,transparent)}
+  .hero-col.left{left:0;text-align:left;padding-left:1.4rem}.hero-col.right{right:0;text-align:right;padding-right:1.4rem}
+  .hero-col-inner{position:absolute;left:0;right:0;padding:0 1rem}
+  .hero-col.left .hero-col-inner{padding-left:1.4rem}.hero-col.right .hero-col-inner{padding-right:1.4rem}
+  .hc-stream{display:block;font-family:var(--mono);font-size:0.56rem;letter-spacing:0.06em;line-height:2.15;color:rgba(0,200,255,0.26);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hc-annot{display:block;font-family:var(--serif);font-style:italic;font-size:0.74rem;letter-spacing:0.01em;line-height:2.3;color:rgba(107,76,30,0.42)}
+  @keyframes hcUp{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+  @keyframes hcDown{from{transform:translateY(-50%)}to{transform:translateY(0)}}
+  .hero-col-inner.up{animation:hcUp linear infinite}.hero-col-inner.down{animation:hcDown linear infinite}
+
+  /* ABOUT — ORBITING STAT CARDS */
+  .orbit-card{position:absolute;z-index:1;pointer-events:none;will-change:transform;text-align:center;padding:0.75rem 1rem;border-radius:3px;backdrop-filter:blur(1px)}
+  body:not(.theme-law) .orbit-card{border:1px solid rgba(0,200,255,0.22);background:rgba(0,200,255,0.03);box-shadow:0 0 22px rgba(0,200,255,0.07)}
+  body.theme-law .orbit-card{border:1px solid var(--border-med);background:rgba(107,76,30,0.05);box-shadow:none}
+  .orbit-card .oc-val{font-family:var(--title);font-size:1.5rem;line-height:1;color:var(--gold);transition:color 0.5s}
+  body:not(.theme-law) .orbit-card .oc-val{text-shadow:0 0 14px var(--gold-glow)}
+  .orbit-card .oc-lbl{font-family:var(--mono);font-size:0.48rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-dim);margin-top:0.35rem;transition:color 0.5s}
+  .orbit-card .oc-stamp{display:none}
+  body.theme-law .orbit-card{transform-origin:center}body.theme-law .orbit-card .oc-stamp{display:block;font-family:var(--mono);font-size:0.42rem;letter-spacing:0.2em;color:var(--gold-dim);border-top:1px solid var(--border-subtle);margin-top:0.4rem;padding-top:0.3rem}
+
+  /* EXPERIENCE — TIMELINE NODES */
+  .tl-rail{position:absolute;inset:0;pointer-events:none;z-index:1}
+  .tl-node{position:absolute;width:13px;height:13px;border-radius:50%;border:1.5px solid var(--gold-dim);background:var(--bg);transform:translate(-50%,-50%);transition:border-color 0.4s,background 0.4s,box-shadow 0.4s}
+  body:not(.theme-law) .tl-node{border-color:rgba(0,200,255,0.4)}
+  .tl-node .tl-conn{position:absolute;left:50%;top:50%;height:1px;width:14px;transform:translateY(-50%);transition:width 0.6s ease,opacity 0.6s;opacity:0.35}
+  body:not(.theme-law) .tl-node .tl-conn{background:linear-gradient(90deg,var(--neon),transparent)}
+  body.theme-law .tl-node .tl-conn{background:linear-gradient(90deg,var(--gold),transparent)}
+  .tl-node.lit .tl-conn{width:var(--conn-w,42px);opacity:0.7}
+  body:not(.theme-law) .tl-node.lit{border-color:var(--neon);box-shadow:0 0 10px rgba(0,200,255,0.7);animation:tlPulse 2.4s ease-in-out infinite}
+  body.theme-law .tl-node.lit{border-color:var(--gold);background:var(--gold)}
+  @keyframes tlPulse{0%,100%{box-shadow:0 0 6px rgba(0,200,255,0.4)}50%{box-shadow:0 0 13px rgba(0,200,255,0.85)}}
+
+  /* WRITING — FLOATING QUOTES (reuses .plx-float parallax + theme toggle) */
+  .plx-float.wq{white-space:normal;max-width:190px;line-height:1.7}
+  .plx-float.wq.cyber-float{font-size:0.66rem;color:rgba(0,200,255,0.34);letter-spacing:0.04em}
+  .plx-float.wq.law-float{font-size:1rem;color:rgba(107,76,30,0.5)}
+  .wq .redact{background:rgba(0,200,255,0.28);color:transparent;border-radius:1px;padding:0 2px}
+  .wq.law-float .wq-mark{font-family:var(--blog);font-size:1.5rem;color:var(--gold-dim);line-height:0.5;vertical-align:-0.35em;opacity:0.7}
+
+  /* SKILLS — EXPANDING CONNECTIONS */
+  .skill-kw{position:absolute;z-index:1;pointer-events:none;display:flex;align-items:center;gap:7px;opacity:0;transition:opacity 0.6s;font-family:var(--mono);font-size:0.56rem;letter-spacing:0.13em;text-transform:uppercase;color:rgba(0,200,255,0.44);white-space:nowrap}
+  .skill-kw.left{flex-direction:row-reverse}
+  .skill-kw .kw-line{height:1px;width:0;transition:width 0.8s ease}
+  body:not(.theme-law) .skill-kw .kw-line{background:linear-gradient(90deg,transparent,rgba(0,200,255,0.45))}
+  body:not(.theme-law) .skill-kw.left .kw-line{background:linear-gradient(90deg,rgba(0,200,255,0.45),transparent)}
+  .skill-kw .kw-dot{width:4px;height:4px;border-radius:50%;background:var(--neon);flex-shrink:0}
+  .skill-kw.show{opacity:1}.skill-kw.show .kw-line{width:72px}
+  body.theme-law .skill-kw{font-family:var(--serif);font-style:italic;text-transform:none;font-size:0.74rem;letter-spacing:0.01em;color:rgba(107,76,30,0.55)}
+  body.theme-law .skill-kw .kw-line,body.theme-law .skill-kw.left .kw-line{background:rgba(107,76,30,0.4)}
+  body.theme-law .skill-kw .kw-dot{width:0;height:0;background:none;border-top:4px solid transparent;border-bottom:4px solid transparent;border-radius:0}
+  body.theme-law .skill-kw:not(.left) .kw-dot{border-right:6px solid var(--gold-dim)}
+  body.theme-law .skill-kw.left .kw-dot{border-left:6px solid var(--gold-dim)}
+
+  /* INTERESTS — SCATTERED ICONS (reuses .plx-float) */
+  .plx-float.big-emoji{opacity:1}
+  .plx-float.big-emoji.cyber-float .be-glyph{font-size:3.4rem;opacity:0.16;display:inline-block;filter:grayscale(0.3) drop-shadow(0 0 8px rgba(0,200,255,0.2))}
+  .plx-float.big-emoji.law-float .be-glyph{font-family:var(--serif);font-size:3rem;color:rgba(107,76,30,0.28);opacity:1}
+
+  /* CONTACT — CONVERGING LINES */
+  .converge{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
+  .converge line{stroke-width:1}
+  body:not(.theme-law) .converge line{stroke:rgba(0,200,255,0.35)}
+  body.theme-law .converge line{stroke:rgba(107,76,30,0.35)}
+  .converge-core{opacity:0;transition:opacity 0.4s}
+  body:not(.theme-law) .converge-core{fill:var(--neon);filter:drop-shadow(0 0 6px rgba(0,200,255,0.8))}
+  body.theme-law .converge-core{fill:var(--gold)}
+
   @media(max-width:768px){nav{padding:0 1.2rem}nav .nav-center{gap:1rem}.side-nav{display:none}.hero-grid{grid-template-columns:1fr;padding:0 1.5rem;gap:2rem}.hero-right{display:none}.about-grid{grid-template-columns:1fr}.section-inner{padding:5rem 1.3rem}.exhibit{grid-template-columns:1fr}.exhibit::before{display:none}.exhibit-date{text-align:left;margin-bottom:0.3rem}.fav-grid{grid-template-columns:1fr}.favorites-panel{padding:2rem 1.5rem}.theme-toggle{bottom:42px;left:1rem}.currently-grid{grid-template-columns:1fr}.radar-wrap{flex-direction:column;align-items:center}.plx-float{display:none}}
+  /* Gutter decor needs real side-space — retire it as the viewport narrows */
+  @media(max-width:1180px){.side-rail,.hero-col,.orbit-card,.tl-rail,.skill-kw,.converge{display:none}.plx-float.wq,.plx-float.big-emoji{display:none}}
 </style>
 </head>
 <body>
@@ -126,6 +217,10 @@ code
 
 <button class="theme-toggle" id="themeToggle"><span class="theme-toggle-icon" id="toggleIcon">⚡</span><span class="theme-toggle-label" id="toggleLabel">CYBER</span></button>
 
+<!-- GLOBAL SIDE RAILS -->
+<div class="side-rail left" id="railLeft"><div class="rail-line"></div></div>
+<div class="side-rail right" id="railRight"><div class="rail-line"></div></div>
+
 <section id="hero">
   <svg class="hero-bg-skyline" id="skyline" viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
     <defs><linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00c8ff" stop-opacity="0.3"/><stop offset="100%" stop-color="#00c8ff" stop-opacity="0"/></linearGradient></defs>
@@ -133,6 +228,8 @@ code
     <g fill="#00c8ff" opacity="0.2"><rect x="160" y="130" width="3" height="4"/><rect x="175" y="100" width="3" height="4"/><rect x="355" y="70" width="3" height="4"/><rect x="530" y="85" width="3" height="4"/><rect x="725" y="75" width="3" height="4"/><rect x="960" y="60" width="3" height="4"/><rect x="1190" y="90" width="3" height="4"/></g>
     <g class="skyline-extra-windows" fill="#00c8ff" opacity="0.6"><rect x="170" y="110" width="3" height="4"/><rect x="242" y="105" width="3" height="4"/><rect x="350" y="85" width="3" height="4"/><rect x="382" y="55" width="3" height="4"/><rect x="525" y="70" width="3" height="4"/><rect x="545" y="80" width="3" height="4"/><rect x="720" y="90" width="3" height="4"/><rect x="738" y="70" width="3" height="4"/><rect x="955" y="75" width="3" height="4"/><rect x="978" y="65" width="3" height="4"/><rect x="1195" y="78" width="3" height="4"/><rect x="1215" y="72" width="3" height="4"/></g>
   </svg>
+  <div class="hero-col left" id="heroColLeft"></div>
+  <div class="hero-col right" id="heroColRight"></div>
   <div class="hero-grid">
     <div class="hero-left" id="heroLeft">
       <div class="hero-location">New York City</div>
@@ -158,6 +255,9 @@ code
   <div class="plx-float cyber-float" data-plx-speed="-0.1" style="top:60%;left:3%">SYSTEM.OUT<br>// COLUMBIA</div>
   <div class="plx-float law-float" data-plx-speed="0.12" style="top:15%;right:4%">We the People of the<br>United States, in Order to<br>form a more perfect Union…</div>
   <div class="plx-float law-float" data-plx-speed="-0.08" style="top:70%;left:2%">Amendment I<br>Congress shall make no law…</div>
+  <div class="orbit-card" data-speed="-0.09" data-phase="0" style="top:22%;right:3.5%"><div class="oc-val">4.00</div><div class="oc-lbl">GPA · Dean's List</div><div class="oc-stamp">EXHIBIT — 01</div></div>
+  <div class="orbit-card" data-speed="0.13" data-phase="2.1" style="top:58%;left:3%"><div class="oc-val">6</div><div class="oc-lbl">Campus Orgs</div><div class="oc-stamp">EXHIBIT — 02</div></div>
+  <div class="orbit-card" data-speed="-0.16" data-phase="4.2" style="top:80%;right:5%"><div class="oc-val">3</div><div class="oc-lbl">Languages</div><div class="oc-stamp">EXHIBIT — 03</div></div>
   <div class="section-inner">
     <div class="section-label">// Article I</div>
     <h2 class="section-title">About</h2>
@@ -184,6 +284,7 @@ code
   <div class="plx-float law-float" data-plx-speed="0.14" style="top:12%;right:5%">IN THE MATTER OF<br>Chang v. The Status Quo</div>
   <div class="plx-float law-float" data-plx-speed="-0.09" style="top:65%;left:3%">EXHIBIT A<br>Filed this day…</div>
   <div class="section-inner">
+    <div class="tl-rail" id="tlRail"></div>
     <div class="section-label">// Article II</div>
     <h2 class="section-title">Experience</h2>
     <div class="exhibit"><div class="exhibit-date">Summer<br/>2026</div><div class="exhibit-body"><div class="exhibit-label">Federal Law</div><div class="exhibit-title">Legal Intern — U.S. Attorney's Office, D.C.</div><div class="exhibit-org">United States Department of Justice · Special Proceedings Division</div><div class="exhibit-desc"></div></div></div>
@@ -195,8 +296,17 @@ code
 
 <!-- WRITING -->
 <section id="writing">
-  <div class="plx-float cyber-float" data-plx-speed="0.13" style="top:10%;right:4%">README.md<br>// PUBLISHED</div>
-  <div class="plx-float law-float" data-plx-speed="0.11" style="top:8%;right:3%">BRIEF OF AMICUS<br>CURIAE</div>
+  <div class="plx-float cyber-float" data-plx-speed="0.13" style="top:6%;right:4%">README.md<br>// PUBLISHED</div>
+  <div class="plx-float law-float" data-plx-speed="0.11" style="top:5%;right:3%">BRIEF OF AMICUS<br>CURIAE</div>
+  <!-- Floating quotes — one excerpt per entry, drifting at parallax depth -->
+  <div class="plx-float wq cyber-float" data-plx-speed="0.18" style="top:24%;left:3%">&gt; institutions, ideas, and the <span class="redact">people</span> behind <span class="redact">them</span></div>
+  <div class="plx-float wq law-float" data-plx-speed="0.18" style="top:22%;left:2.5%"><span class="wq-mark">“</span>institutions, ideas, and the people behind them.<span class="wq-mark">”</span></div>
+  <div class="plx-float wq cyber-float" data-plx-speed="-0.14" style="top:46%;right:3.5%">&gt; who <span class="redact">writes</span> the rules for <span class="redact">them</span></div>
+  <div class="plx-float wq law-float" data-plx-speed="-0.14" style="top:44%;right:3%"><span class="wq-mark">“</span>who writes the rules for them.<span class="wq-mark">”</span></div>
+  <div class="plx-float wq cyber-float" data-plx-speed="0.12" style="top:70%;left:3.5%">&gt; how <span class="redact">systems</span> fail the people <span class="redact">inside</span> them</div>
+  <div class="plx-float wq law-float" data-plx-speed="0.12" style="top:68%;left:3%"><span class="wq-mark">“</span>how systems fail the people inside them.<span class="wq-mark">”</span></div>
+  <div class="plx-float wq cyber-float" data-plx-speed="-0.16" style="top:86%;right:4%">&gt; technology, <span class="redact">identity</span>, and <span class="redact">power</span></div>
+  <div class="plx-float wq law-float" data-plx-speed="-0.16" style="top:84%;right:3.5%"><span class="wq-mark">“</span>technology, identity, and power.<span class="wq-mark">”</span></div>
   <div class="section-inner">
   <div class="section-inner">
     <div class="section-label">// Article III</div>
@@ -216,6 +326,13 @@ code
 <section id="skills">
   <div class="plx-float cyber-float" data-plx-speed="0.16" style="top:12%;right:6%">SKILL_TREE<br>LOADED: 100%</div>
   <div class="plx-float law-float" data-plx-speed="0.1" style="top:10%;right:4%">DEPOSITION OF<br>TECHNICAL EXPERTISE</div>
+  <!-- Skill keyword labels — connection lines grow as the radar expands -->
+  <div class="skill-kw" data-at="0.15" style="top:34%;right:4%"><span class="kw-dot"></span><span class="kw-line"></span><span>Python</span></div>
+  <div class="skill-kw" data-at="0.35" style="top:50%;right:3%"><span class="kw-dot"></span><span class="kw-line"></span><span>Legal Briefs</span></div>
+  <div class="skill-kw" data-at="0.55" style="top:66%;right:4.5%"><span class="kw-dot"></span><span class="kw-line"></span><span>Statistics</span></div>
+  <div class="skill-kw left" data-at="0.25" style="top:38%;left:4%"><span class="kw-dot"></span><span class="kw-line"></span><span>Journalism</span></div>
+  <div class="skill-kw left" data-at="0.45" style="top:54%;left:3%"><span class="kw-dot"></span><span class="kw-line"></span><span>Research</span></div>
+  <div class="skill-kw left" data-at="0.65" style="top:70%;left:4.5%"><span class="kw-dot"></span><span class="kw-line"></span><span>Mandarin</span></div>
   <div class="section-inner">
     <div class="section-label">// Article IV</div>
     <h2 class="section-title">Skills & Tools</h2>
@@ -248,8 +365,17 @@ code
 
 <!-- INTERESTS -->
 <section id="interests">
-  <div class="plx-float cyber-float" data-plx-speed="0.14" style="top:15%;right:5%">HOBBIES.EXE<br>RUNNING...</div>
-  <div class="plx-float law-float" data-plx-speed="0.1" style="top:12%;right:4%">PERSONAL STATEMENT<br>Re: Extracurricular</div>
+  <div class="plx-float cyber-float" data-plx-speed="0.14" style="top:8%;right:5%">HOBBIES.EXE<br>RUNNING...</div>
+  <div class="plx-float law-float" data-plx-speed="0.1" style="top:6%;right:4%">PERSONAL STATEMENT<br>Re: Extracurricular</div>
+  <!-- Scattered atmospheric icons drifting in the gutters -->
+  <div class="plx-float big-emoji cyber-float" data-plx-speed="0.07" style="top:20%;left:2.5%"><span class="be-glyph">🏹</span></div>
+  <div class="plx-float big-emoji law-float" data-plx-speed="0.07" style="top:20%;left:3%"><span class="be-glyph">§</span></div>
+  <div class="plx-float big-emoji cyber-float" data-plx-speed="0.12" style="top:40%;right:3%"><span class="be-glyph">♟️</span></div>
+  <div class="plx-float big-emoji law-float" data-plx-speed="0.12" style="top:40%;right:3.5%"><span class="be-glyph">¶</span></div>
+  <div class="plx-float big-emoji cyber-float" data-plx-speed="-0.1" style="top:66%;left:3.5%"><span class="be-glyph">🤖</span></div>
+  <div class="plx-float big-emoji law-float" data-plx-speed="-0.1" style="top:66%;left:4%"><span class="be-glyph">†</span></div>
+  <div class="plx-float big-emoji cyber-float" data-plx-speed="0.09" style="top:82%;right:4.5%"><span class="be-glyph">⚖️</span></div>
+  <div class="plx-float big-emoji law-float" data-plx-speed="0.09" style="top:82%;right:5%"><span class="be-glyph">‡</span></div>
   <div class="section-inner">
     <div class="section-label">// Article V</div>
     <h2 class="section-title">Interests & Hobbies</h2>
@@ -266,6 +392,13 @@ code
 
 <!-- CONTACT -->
 <section id="contact">
+  <svg class="converge" id="converge" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <line x1="0" y1="16" x2="50" y2="53" vector-effect="non-scaling-stroke"/>
+    <line x1="0" y1="86" x2="50" y2="53" vector-effect="non-scaling-stroke"/>
+    <line x1="100" y1="16" x2="50" y2="53" vector-effect="non-scaling-stroke"/>
+    <line x1="100" y1="86" x2="50" y2="53" vector-effect="non-scaling-stroke"/>
+    <circle class="converge-core" cx="50" cy="53" r="0.7"/>
+  </svg>
   <div class="section-inner">
     <div class="section-label">// Article VI</div>
     <h2 class="section-title">Contact</h2>
@@ -353,6 +486,15 @@ const dataPoly=document.getElementById('dataPoly');
 const pulseGlow=document.getElementById('pulseGlow');
 const radarDots=document.getElementById('radarDots');
 const radarSvg=document.getElementById('radarSvg');
+// Gutter-decor references
+const aboutSec=document.getElementById('about');
+const orbitCards=document.querySelectorAll('.orbit-card');
+const skillsSec=document.getElementById('skills');
+const skillKws=document.querySelectorAll('.skill-kw');
+const contactSec=document.getElementById('contact');
+const convergeLines=document.querySelectorAll('#converge line');
+const convergeCore=document.querySelector('.converge-core');
+let railMarks=[];
 
 // Radar full points
 const radarFull=[[150,30],[264,87],[264,213],[150,270],[36,213],[36,87]];
@@ -427,6 +569,47 @@ function parallaxLoop(){
     }
   }
 
+  // ORBIT STAT CARDS — drift + gentle orbit as About scrolls
+  const aRect=aboutSec.getBoundingClientRect();
+  if(aRect.bottom>-260&&aRect.top<vh+260){
+    orbitCards.forEach(c=>{
+      const sp=parseFloat(c.dataset.speed)||0;
+      const ph=parseFloat(c.dataset.phase)||0;
+      const y=Math.round((aRect.top-vh*0.5)*sp);
+      const x=(Math.sin(scrollY*0.004+ph)*9).toFixed(1);
+      const rot=(Math.sin(scrollY*0.0032+ph)*2).toFixed(2);
+      c.style.transform='translate3d('+x+'px,'+y+'px,0) rotate('+rot+'deg)';
+    });
+  }
+
+  // SKILL CONNECTION LABELS — reveal as skills section enters (both themes)
+  const skRect=skillsSec.getBoundingClientRect();
+  if(skRect.bottom>0&&skRect.top<vh){
+    const sProg=clamp((vh*0.82-skRect.top)/(vh*0.45),0,1);
+    skillKws.forEach(k=>{if(sProg>=parseFloat(k.dataset.at))k.classList.add('show');});
+  }
+
+  // CONTACT CONVERGING LINES — draw inward on approach (always resolved, clamped past the edges)
+  if(convergeLines.length){
+    const coRect=contactSec.getBoundingClientRect();
+    const cProg=clamp((vh-coRect.top)/(vh*0.7),0,1);
+    convergeLines.forEach(l=>{
+      const len=l._len||(l._len=l.getTotalLength());
+      l.style.strokeDasharray=len;
+      l.style.strokeDashoffset=(len*(1-cProg)).toFixed(2);
+    });
+    if(convergeCore)convergeCore.style.opacity=(cProg*cProg).toFixed(2);
+  }
+
+  // SIDE RAIL MARKS — looping parallax drift
+  if(railMarks.length){
+    const railH=vh-84;
+    for(const m of railMarks){
+      let y=((m._base+scrollY*m._sp)%railH+railH)%railH;
+      m.style.top=y.toFixed(1)+'px';
+    }
+  }
+
   // SIDE NAV
   updateSideNav();
 
@@ -459,6 +642,63 @@ if(radarCenterEl){radarCenterEl.addEventListener('click',()=>{if(rAnim||!radarDr
 
 // 6. LEGALESE
 document.addEventListener('click',(e)=>{const h=e.target.closest('.exhibit-list-header');if(!h)return;const t=h.querySelector('.exhibit-list-title');if(t&&t.textContent.includes('Exhibit C')){const r=document.getElementById('legalRow');if(r)r.classList.toggle('show')}});
+
+// ============ GUTTER DECOR INIT ============
+// Hero side columns — cyber terminal streams crawl up, law annotations drift down
+(function(){
+  const L=['2026-07-08 04:12:33','40.8075°N 73.9626°W','CASE #2029-CU-0401','TRACE usao-dc','0xF3A9C2','SEQ 0x1A44','LAT 38.8951°N','NODE columbia-07','PKT 0928 / OK','GEO 34.05,-118.24'];
+  const R=['DOCKET 2029-CU','LON -73.9626°','HASH e4c9…b1f0','UPLINK active','37.4419°N','MEM 0x7FA2','SESSION //nyc','CHKSUM ok','ID 0442-α','RANGE 70m 10-RING'];
+  const A=['¶ 1','See generally','cf.','supra note 3','id. at 12','infra Part II','e.g.,','§ 2.1','Ibid.','accord','§ 4(b)'];
+  function build(id,streams,dur){
+    const col=document.getElementById(id);if(!col)return;
+    const s=streams.concat(streams).map(t=>'<span class="hc-stream">'+t+'</span>').join('');
+    const a=A.concat(A).map(t=>'<span class="hc-annot">'+t+'</span>').join('');
+    col.innerHTML='<div class="hero-col-inner up tmode-cyber" style="animation-duration:'+dur+'s">'+s+'</div>'+
+                  '<div class="hero-col-inner down tmode-law" style="animation-duration:'+(dur+9)+'s">'+a+'</div>';
+  }
+  build('heroColLeft',L,26);
+  build('heroColRight',R,34);
+})();
+
+// Side-rail decorative marks (parallax handled in loop via _sp/_base)
+(function(){
+  const cyc=['·','+','◇','·','×','◇','·'];const law=['§','¶','†','‡','§','¶','†'];
+  function build(id,seed){
+    const rail=document.getElementById(id);if(!rail)return;
+    const railH=Math.max(window.innerHeight-84,200);const n=7;
+    for(let i=0;i<n;i++){
+      const m=document.createElement('div');m.className='rail-mark';
+      m._sp=(0.04+((i*7+seed)%5)*0.03)*(i%2?1:-1);
+      m._base=(i/n)*railH+seed*13;
+      m.innerHTML='<span class="rm-c">'+cyc[i%cyc.length]+'</span><span class="rm-l">'+law[i%law.length]+'</span>';
+      rail.appendChild(m);railMarks.push(m);
+    }
+  }
+  build('railLeft',0);build('railRight',3);
+})();
+
+// Experience timeline nodes — positioned per entry, light up sequentially
+(function(){
+  const rail=document.getElementById('tlRail');const inner=document.querySelector('#experience .section-inner');
+  if(!rail||!inner)return;
+  const exhibits=inner.querySelectorAll('.exhibit');let nodes=[];const lit=new Set();
+  function build(){
+    rail.innerHTML='';nodes=[];
+    exhibits.forEach((ex,i)=>{
+      const nd=document.createElement('div');nd.className='tl-node';
+      nd.style.left='-34px';nd.style.top=(ex.offsetTop+18)+'px';nd.style.setProperty('--conn-w','42px');
+      nd.innerHTML='<div class="tl-conn"></div>';
+      rail.appendChild(nd);nodes.push(nd);
+      if(lit.has(i))nd.classList.add('lit');
+    });
+  }
+  build();
+  window.addEventListener('load',build);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(build);
+  let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(build,150);});
+  const obs=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){const idx=[].indexOf.call(exhibits,e.target);if(idx>-1){lit.add(idx);const nd=nodes[idx];if(nd)setTimeout(()=>nd.classList.add('lit'),idx*140);}}});},{threshold:0.35});
+  exhibits.forEach(x=>obs.observe(x));
+})();
 </script>
 </body>
 </html>
