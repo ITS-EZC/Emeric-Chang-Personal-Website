@@ -191,18 +191,9 @@
   .plx-float.big-emoji.cyber-float .be-glyph{font-size:3.4rem;opacity:0.16;display:inline-block;filter:grayscale(0.3) drop-shadow(0 0 8px rgba(0,200,255,0.2))}
   .plx-float.big-emoji.law-float .be-glyph{font-family:var(--serif);font-size:3rem;color:rgba(107,76,30,0.28);opacity:1}
 
-  /* CONTACT — CONVERGING LINES */
-  .converge{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
-  .converge line{stroke-width:1}
-  body:not(.theme-law) .converge line{stroke:rgba(0,200,255,0.35)}
-  body.theme-law .converge line{stroke:rgba(107,76,30,0.35)}
-  .converge-core{opacity:0;transition:opacity 0.4s}
-  body:not(.theme-law) .converge-core{fill:var(--neon);filter:drop-shadow(0 0 6px rgba(0,200,255,0.8))}
-  body.theme-law .converge-core{fill:var(--gold)}
-
   @media(max-width:768px){nav{padding:0 1.2rem}nav .nav-center{gap:1rem}.side-nav{display:none}.hero-grid{grid-template-columns:1fr;padding:0 1.5rem;gap:2rem}.hero-right{display:none}.about-grid{grid-template-columns:1fr}.section-inner{padding:5rem 1.3rem}.exhibit{grid-template-columns:1fr}.exhibit::before{display:none}.exhibit-date{text-align:left;margin-bottom:0.3rem}.fav-grid{grid-template-columns:1fr}.favorites-panel{padding:2rem 1.5rem}.theme-toggle{bottom:42px;left:1rem}.currently-grid{grid-template-columns:1fr}.radar-wrap{flex-direction:column;align-items:center}.plx-float{display:none}}
   /* Gutter decor needs real side-space — retire it as the viewport narrows */
-  @media(max-width:1180px){.side-rail,.hero-col,.orbit-card,.tl-rail,.skill-kw,.converge{display:none}.plx-float.wq,.plx-float.big-emoji{display:none}}
+  @media(max-width:1180px){.side-rail,.hero-col,.orbit-card,.tl-rail,.skill-kw{display:none}.plx-float.wq,.plx-float.big-emoji{display:none}}
 </style>
 </head>
 <body>
@@ -390,13 +381,6 @@
 
 <!-- CONTACT -->
 <section id="contact">
-  <svg class="converge" id="converge" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <line x1="0" y1="16" x2="50" y2="53" vector-effect="non-scaling-stroke"/>
-    <line x1="0" y1="86" x2="50" y2="53" vector-effect="non-scaling-stroke"/>
-    <line x1="100" y1="16" x2="50" y2="53" vector-effect="non-scaling-stroke"/>
-    <line x1="100" y1="86" x2="50" y2="53" vector-effect="non-scaling-stroke"/>
-    <circle class="converge-core" cx="50" cy="53" r="0.7"/>
-  </svg>
   <div class="section-inner">
     <div class="section-label">// Article VI</div>
     <h2 class="section-title">Contact</h2>
@@ -489,9 +473,6 @@ const aboutSec=document.getElementById('about');
 const orbitCards=document.querySelectorAll('.orbit-card');
 const skillsSec=document.getElementById('skills');
 const skillKws=document.querySelectorAll('.skill-kw');
-const contactSec=document.getElementById('contact');
-const convergeLines=document.querySelectorAll('#converge line');
-const convergeCore=document.querySelector('.converge-core');
 let railMarks=[];
 
 // Radar full points
@@ -585,18 +566,6 @@ function parallaxLoop(){
   if(skRect.bottom>0&&skRect.top<vh){
     const sProg=clamp((vh*0.82-skRect.top)/(vh*0.45),0,1);
     skillKws.forEach(k=>{if(sProg>=parseFloat(k.dataset.at))k.classList.add('show');});
-  }
-
-  // CONTACT CONVERGING LINES — draw inward on approach (always resolved, clamped past the edges)
-  if(convergeLines.length){
-    const coRect=contactSec.getBoundingClientRect();
-    const cProg=clamp((vh-coRect.top)/(vh*0.7),0,1);
-    convergeLines.forEach(l=>{
-      const len=l._len||(l._len=l.getTotalLength());
-      l.style.strokeDasharray=len;
-      l.style.strokeDashoffset=(len*(1-cProg)).toFixed(2);
-    });
-    if(convergeCore)convergeCore.style.opacity=(cProg*cProg).toFixed(2);
   }
 
   // SIDE RAIL MARKS — looping parallax drift
