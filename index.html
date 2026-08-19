@@ -75,7 +75,6 @@
   .portrait-frame::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(160deg,rgba(201,168,76,0.2),rgba(0,200,255,0.12));mix-blend-mode:color;pointer-events:none;transition:background 0.5s}
   .portrait-frame::after{content:'';position:absolute;inset:0;z-index:2;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.12) 2px,rgba(0,0,0,0.12) 4px);pointer-events:none;transition:opacity 0.5s}
   .portrait-bar{position:absolute;bottom:0;left:0;right:0;z-index:3;font-family:var(--mono);font-size:0.52rem;letter-spacing:0.2em;text-align:center;color:var(--neon-dim);padding:7px;background:rgba(8,11,16,0.88);border-top:1px solid rgba(0,200,255,0.15);text-transform:uppercase;transition:all 0.5s}body.theme-law .portrait-bar{background:rgba(243,236,224,0.9);border-top-color:var(--border-subtle)}
-  .portrait-corner{position:absolute;z-index:3;width:14px;height:14px;border-color:var(--gold-dim);border-style:solid;border-width:0;transition:border-color 0.5s}.portrait-corner.tl{top:6px;left:6px;border-top-width:1px;border-left-width:1px}.portrait-corner.tr{top:6px;right:6px;border-top-width:1px;border-right-width:1px}.portrait-corner.bl{bottom:28px;left:6px;border-bottom-width:1px;border-left-width:1px}.portrait-corner.br{bottom:28px;right:6px;border-bottom-width:1px;border-right-width:1px}
 
   #about{background:var(--bg2);border-top:1px solid var(--border-subtle);transition:background 0.5s,border-color 0.5s}
   .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}.about-bio p{color:var(--text);margin-bottom:1rem;transition:color 0.5s}.about-bio p:first-child::first-letter{font-size:3.2rem;font-family:var(--title);color:var(--gold);float:left;line-height:0.75;margin-right:0.1em;margin-top:0.1em;transition:color 0.5s}
@@ -476,9 +475,14 @@
     .scrub-bg-wrap{background:url("./images/justice-bg-poster.jpg") center/cover no-repeat,
       radial-gradient(120% 90% at 50% 28%, #10243a 0%, #0a1420 42%, #05070b 100%)}
   }
+  /* Boot sequence on load — same overlay the 5x-logo easter egg uses */
+  html.booting{background:#000}
+  html.booting .boot-overlay{display:flex}
 </style>
+<script>try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('booting');}catch(e){}</script>
 </head>
 <body>
+<div class="boot-overlay" id="bootOverlay"><div class="boot-lines" id="bootLines"></div><div class="gavel-text" id="gavelText">⚖ COURT IS IN SESSION ⚖</div></div>
 <!-- FANCY: hero cityscape backdrop (sits behind the matrix rain, which is ~88% transparent) -->
 <div class="hero-photo-wrap" id="heroPhotoWrap" aria-hidden="true">
   <div class="hero-photo"></div>
@@ -534,7 +538,6 @@
     </div>
     <div class="hero-right" id="heroRight">
       <div class="portrait-frame" id="portraitFrame">
-        <span class="portrait-corner tl"></span><span class="portrait-corner tr"></span><span class="portrait-corner bl"></span><span class="portrait-corner br"></span>
         <img id="portraitImg" src="./images/DSC01828.JPG" alt="Emeric Z. Chang" />
         <div class="portrait-bar">Columbia ▪ Poli Sci ▪ CS ▪ Archery ▪ Policy ▪ Justice</div>
       </div>
@@ -727,7 +730,6 @@
   </div>
 </div>
 
-<div class="boot-overlay" id="bootOverlay"><div class="boot-lines" id="bootLines"></div><div class="gavel-text" id="gavelText">⚖ COURT IS IN SESSION ⚖</div></div>
 
 <footer>&copy; <span id="yr"></span> Emeric Z. Chang &nbsp;|&nbsp; Columbia University &nbsp;|&nbsp; New York City<script>document.getElementById('yr').textContent=new Date().getFullYear();</script></footer>
 
@@ -922,9 +924,13 @@ window.requestAnimationFrame(parallaxLoop);
 // 1. LOGO BOOT
 const logo=document.querySelector('.logo');let logoClicks=[];
 logo.addEventListener('click',()=>{const now=Date.now();logoClicks.push(now);logoClicks=logoClicks.filter(t=>now-t<1500);if(logoClicks.length>=5){logoClicks=[];triggerBoot()}});
+function endBoot(){document.getElementById('bootOverlay').classList.remove('active');document.documentElement.classList.remove('booting')}
 function triggerBoot(){const boot=document.getElementById('bootOverlay'),lines=document.getElementById('bootLines'),gavel=document.getElementById('gavelText'),isLaw=document.body.classList.contains('theme-law');boot.classList.toggle('law-boot',isLaw);lines.innerHTML='';gavel.classList.remove('slam');gavel.style.display=isLaw?'block':'none';boot.classList.add('active');
-if(isLaw){const ll=['> Accessing Federal Court Records...','> Verifying Bar credentials... VERIFIED','> Loading Constitutional Amendments... 27/27','> Swearing in witness: CHANG, EMERIC Z.','> Docket No. 2029-CU-0401 ... OPENED','> All parties present.',''];ll.forEach((t,i)=>{setTimeout(()=>{if(t===''){setTimeout(()=>{gavel.classList.add('slam')},100);return}const el=document.createElement('div');el.className='boot-line';el.textContent=t;lines.appendChild(el);requestAnimationFrame(()=>el.classList.add('show'))},i*400)});setTimeout(()=>{boot.classList.remove('active')},ll.length*400+1200)}
-else{const cl=['> CHANG_OS v2.029 ... LOADING','> Initializing justice protocols ... OK','> Archery module calibrated ... 10-RING LOCK','> Policy engine ... FEDERAL CLEARANCE GRANTED','> Neural interface ... COLUMBIA UPLINK ACTIVE','> AI governance framework ... DEPLOYED','> Scanning for objections ... NONE FOUND','> System ready. Welcome back, Emeric.'];cl.forEach((t,i)=>{setTimeout(()=>{const el=document.createElement('div');el.className='boot-line';el.textContent=t;lines.appendChild(el);requestAnimationFrame(()=>el.classList.add('show'))},i*350)});setTimeout(()=>{boot.classList.remove('active')},cl.length*350+800)}}
+if(isLaw){const ll=['> Accessing Federal Court Records...','> Verifying Bar credentials... VERIFIED','> Loading Constitutional Amendments... 27/27','> Swearing in witness: CHANG, EMERIC Z.','> Docket No. 2029-CU-0401 ... OPENED','> All parties present.',''];ll.forEach((t,i)=>{setTimeout(()=>{if(t===''){setTimeout(()=>{gavel.classList.add('slam')},100);return}const el=document.createElement('div');el.className='boot-line';el.textContent=t;lines.appendChild(el);requestAnimationFrame(()=>el.classList.add('show'))},i*400)});setTimeout(endBoot,ll.length*400+1200)}
+else{const cl=['> CHANG_OS v2.029 ... LOADING','> Initializing justice protocols ... OK','> Archery module calibrated ... 10-RING LOCK','> Policy engine ... FEDERAL CLEARANCE GRANTED','> Neural interface ... COLUMBIA UPLINK ACTIVE','> AI governance framework ... DEPLOYED','> Scanning for objections ... NONE FOUND','> System ready. Welcome back, Emeric.'];cl.forEach((t,i)=>{setTimeout(()=>{const el=document.createElement('div');el.className='boot-line';el.textContent=t;lines.appendChild(el);requestAnimationFrame(()=>el.classList.add('show'))},i*350)});setTimeout(endBoot,cl.length*350+800)}}
+
+// Same sequence on entry / refresh (the head script sets .booting unless reduced-motion)
+if(document.documentElement.classList.contains('booting')){triggerBoot();setTimeout(endBoot,8000)}
 
 // 2. TICKER ARROW
 document.getElementById('ticker').addEventListener('click',(e)=>{const item=e.target.closest('.ticker-item');if(item&&item.dataset.item==='Olympic Recurve Archery'){const a=document.createElement('div');a.className='arrow-fly '+(document.body.classList.contains('theme-law')?'law':'cyber');a.style.top=Math.random()*60+20+'%';document.body.appendChild(a);setTimeout(()=>a.remove(),900)}});
